@@ -4,33 +4,74 @@
 use <threadlib.scad>;
 $fn=80;
 
-WuerfelX = 50;
-WuerfelY = 45;
-WuerfelZ = 60;
+rundung      = 0.1;
+WuerfelX     = 50;
+WuerfelY     = 45;
+WuerfelZ     = 60;
 HalterungD   = 6;
 HalterungX1  = 12.5;
 HalterungX2  = HalterungX1+25.0;
 HalterungY1  = 27.5;
 HalterungY2  = HalterungY1+20.0;
+TestStiftX   = 5;
+TestStiftY   = 10;
+TestStiftZ   = 20;
+FlaschRohrH  = 10;
+FlaschRohrDa = 16;
+ZylinderUH   = 20;
+ZylinderUD   = 12;
+ZylinderO1D  = 8;
+ZylinderO2H  = 43-ZylinderUH;
+ZylinderO2D  = 3.01;
+ZylinderS1D  = 10;
+ZylinderS2D  = 3; // M3
+
 
 module Innereien()
 {
     rotate([-90,0,0])
-        translate([HalterungX1,-HalterungY1,-.5])
-            cylinder(d=HalterungD,h=WuerfelY+1);
+        translate([HalterungX1,-HalterungY1,-rundung])
+            cylinder(d=HalterungD,h=WuerfelY+2*rundung);
     rotate([-90,0,0])
-        translate([HalterungX1,-HalterungY2,-.5])
-            cylinder(d=HalterungD,h=WuerfelY+1);
+        translate([HalterungX1,-HalterungY2,-rundung])
+            cylinder(d=HalterungD,h=WuerfelY+2*rundung);
     rotate([-90,0,0])
-        translate([HalterungX2,-HalterungY1,-0.5])
-            cylinder(d=HalterungD,h=WuerfelY+1);
+        translate([HalterungX2,-HalterungY1,-rundung])
+            cylinder(d=HalterungD,h=WuerfelY+2*rundung);
     rotate([-90,0,0])
-        translate([HalterungX2,-HalterungY2,-0.5])
-            cylinder(d=HalterungD,h=WuerfelY+1);
+        translate([HalterungX2,-HalterungY2,-rundung])
+            cylinder(d=HalterungD,h=WuerfelY+2*rundung);
+    translate([-rundung,WuerfelY/2-TestStiftY/2,WuerfelZ-TestStiftZ+rundung])
+        cube([TestStiftX+rundung,TestStiftY,TestStiftZ+rundung]);
+    translate([-rundung,WuerfelY/2,WuerfelZ-TestStiftZ+rundung])
+        rotate([0,90,0])
+            cylinder(d=TestStiftY,h=TestStiftX+rundung);
+    translate([WuerfelX/2,WuerfelY/2,-FlaschRohrH-rundung])
+        cylinder(d=ZylinderUD,h=ZylinderUH+FlaschRohrH+rundung);
+    OPos1 = (ZylinderUD-ZylinderO1D)/2;
+    OPos2 = (ZylinderUD-ZylinderO2D)/2;
+    translate([WuerfelX/2+OPos1,WuerfelY/2,ZylinderUH-rundung])
+        cylinder(d=ZylinderO1D,h=WuerfelZ-ZylinderUH+2*rundung);
+    translate([WuerfelX/2-OPos2,WuerfelY/2,ZylinderUH-rundung])
+        cylinder(d=ZylinderO2D,h=ZylinderO2H+2*rundung);
+    rotate([90,90,0])
+        translate([-2*ZylinderUH/3,WuerfelX/2,-WuerfelY/2-rundung])
+            cylinder(d=ZylinderS1D,h=WuerfelY/2+2*rundung);
+    rotate([0,90,0])
+        translate([-WuerfelZ+TestStiftZ,WuerfelY/2,TestStiftX-rundung])
+            cylinder(d=ZylinderS2D,h=WuerfelX/2-OPos2-TestStiftX+2*rundung);
+
+}
+
+module Aussereien()
+{    
+    cube([WuerfelX,WuerfelY,WuerfelZ],false);
+    translate([WuerfelX/2,WuerfelY/2,-FlaschRohrH])
+        cylinder(d=FlaschRohrDa,h=FlaschRohrH);
 }
 
 difference()
 {
-    cube([WuerfelX,WuerfelY,WuerfelZ],false);
+    Aussereien();
     Innereien();
 }
