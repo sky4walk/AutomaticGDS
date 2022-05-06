@@ -2,7 +2,7 @@
 // github@AndreBetz.de
 
 use <threadlib.scad>;
-$fn=80;
+$fn=100;
 
 rundung      = 0.1;
 WuerfelX     = 50;
@@ -25,7 +25,11 @@ ZylinderO2H  = 43-ZylinderUH;
 ZylinderO2D  = 3.01;
 ZylinderS1D  = 10;
 ZylinderS2D  = 3; // M3
-
+Nut14H       = 10;
+Nut14D       = 15;
+Nut14Windung = 7;
+OPos1 = (ZylinderUD-ZylinderO1D)/2;
+OPos2 = (ZylinderUD-ZylinderO2D)/2;
 
 module Innereien()
 {
@@ -47,16 +51,19 @@ module Innereien()
         rotate([0,90,0])
             cylinder(d=TestStiftY,h=TestStiftX+rundung);
     translate([WuerfelX/2,WuerfelY/2,-FlaschRohrH-rundung])
-        cylinder(d=ZylinderUD,h=ZylinderUH+FlaschRohrH+rundung);
-    OPos1 = (ZylinderUD-ZylinderO1D)/2;
-    OPos2 = (ZylinderUD-ZylinderO2D)/2;
+        cylinder(d=ZylinderUD,h=ZylinderUH+FlaschRohrH+rundung);    
     translate([WuerfelX/2+OPos1,WuerfelY/2,ZylinderUH-rundung])
         cylinder(d=ZylinderO1D,h=WuerfelZ-ZylinderUH+2*rundung);
+    translate([WuerfelX/2+OPos1,WuerfelY/2,WuerfelZ-Nut14H-rundung])
+        cylinder(d=Nut14D,h=Nut14H+2*rundung);
     translate([WuerfelX/2-OPos2,WuerfelY/2,ZylinderUH-rundung])
-        cylinder(d=ZylinderO2D,h=ZylinderO2H+2*rundung);
+        cylinder(d=ZylinderO2D-rundung,h=ZylinderO2H+2*rundung);       
     rotate([90,90,0])
         translate([-2*ZylinderUH/3,WuerfelX/2,-WuerfelY/2-rundung])
             cylinder(d=ZylinderS1D,h=WuerfelY/2+2*rundung);
+    rotate([90,90,0])
+        translate([-2*ZylinderUH/3,WuerfelX/2,-Nut14H-rundung])
+            cylinder(d=Nut14D,h=Nut14H+2*rundung);
     rotate([0,90,0])
         translate([-WuerfelZ+TestStiftZ,WuerfelY/2,TestStiftX-rundung])
             cylinder(d=ZylinderS2D,h=WuerfelX/2-OPos2-TestStiftX+2*rundung);
@@ -70,8 +77,21 @@ module Aussereien()
         cylinder(d=FlaschRohrDa,h=FlaschRohrH);
 }
 
+module Gewinde()
+{
+    translate([WuerfelX/2+OPos1,WuerfelY/2,WuerfelZ-Nut14H])
+        nut("G1/4", turns=Nut14Windung,Douter=Nut14D);
+    rotate([90,90,0])
+        translate([-2*ZylinderUH/3,WuerfelX/2,-Nut14H-rundung])
+            nut("G1/4", turns=Nut14Windung,Douter=Nut14D);
+    rotate([0,90,0])
+        translate([-WuerfelZ+TestStiftZ,WuerfelY/2,TestStiftX+3*rundung])
+            nut("M3x0.5", turns=27, Douter=ZylinderO2D+rundung);
+}
+
 difference()
 {
     Aussereien();
     Innereien();
 }
+Gewinde();
