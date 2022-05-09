@@ -28,6 +28,7 @@ ZylinderS2D  = 3; // M3
 Nut14H       = 10;
 Nut14D       = 15;
 Nut14Windung = 7;
+Uebergang    = 3;
 OPos1 = (ZylinderUD-ZylinderO1D)/2;
 OPos2 = (ZylinderUD-ZylinderO2D)/2;
 
@@ -55,7 +56,11 @@ module Innereien()
     translate([WuerfelX/2+OPos1,WuerfelY/2,ZylinderUH-rundung])
         cylinder(d=ZylinderO1D,h=WuerfelZ-ZylinderUH+2*rundung);
     translate([WuerfelX/2+OPos1,WuerfelY/2,WuerfelZ-Nut14H-rundung])
-        cylinder(d=Nut14D,h=Nut14H+2*rundung);
+        cylinder(d1=Nut14D,d2=Nut14D,h=Nut14H+2*rundung);
+
+    translate([WuerfelX/2+OPos1,WuerfelY/2,WuerfelZ-Nut14H-Uebergang-rundung])
+        cylinder(d1=ZylinderO1D,d2=Nut14D,h=Uebergang+2*rundung);
+
     translate([WuerfelX/2-OPos2,WuerfelY/2,ZylinderUH-rundung])
         cylinder(d=ZylinderO2D-rundung,h=ZylinderO2H+2*rundung);       
     rotate([90,90,0])
