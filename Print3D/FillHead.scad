@@ -9,7 +9,8 @@ WuerfelX     = 50;
 WuerfelY     = 45;
 WuerfelZ     = 60;
 HalterungD   = 6;
-HalterungX1  = 12.5;
+moveX        = 2;
+HalterungX1  = 12.5+moveX;
 HalterungX2  = HalterungX1+25.0;
 HalterungY1  = 27.5;
 HalterungY2  = HalterungY1+20.0;
@@ -96,7 +97,7 @@ module Gewinde()
 
 difference()
 {
-    Aussereien();
+//    Aussereien();
     Innereien();
 }
 Gewinde();
