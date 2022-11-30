@@ -2,14 +2,14 @@
 
 GewindeG58 = 22.5;
 GewindeM8  = 8.0;
-HolderSizeX = 40;
+HolderSizeX = 50;
 HolderSizeY = 40;
 HolderSizeZ = 25;
-ConnSizeL = 20;
+ConnSizeL = 35;
 ConnSizeX = HolderSizeX+2*ConnSizeL;
-ConnSizeY = 10;
-ConnSizeZ = 25;
-ConnDistance =  60;
+ConnSizeY = 20;
+ConnSizeZ = HolderSizeZ;
+ConnDistance =  75;
 
 $fn = 128;
 
@@ -25,9 +25,9 @@ difference()
     translate ([-ConnSizeL, -ConnSizeY, 0])      
         cube ([ConnSizeX, ConnSizeY,ConnSizeZ],false);
     rotate([90,0,0])
-        translate ([-ConnSizeL/2, ConnSizeZ/2, -ConnSizeL+10])      
+        translate ([-ConnSizeL/2.5, ConnSizeZ/2, -1])      
             cylinder(HolderSizeZ+0.2,GewindeM8/2,GewindeM8/2); 
     rotate([90,0,0])
-        translate ([-ConnSizeL/2+ConnDistance, ConnSizeZ/2, -ConnSizeL+10])      
+        translate ([-ConnSizeL/2.5+ConnDistance, ConnSizeZ/2, -1])      
             cylinder(HolderSizeZ+0.2,GewindeM8/2,GewindeM8/2);
 }
