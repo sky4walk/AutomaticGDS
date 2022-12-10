@@ -1,7 +1,7 @@
 /* mail@AndreBetz.de Zwieselbrau.de*/
 
-GewindeG58 = 22.5;
-GewindeM8  = 8.0;
+GewindeG58 = 22.5+2.0;
+GewindeM8  = 8.0+0.5;
 HolderSizeX = 50;
 HolderSizeY = 40;
 HolderSizeZ = 25;
