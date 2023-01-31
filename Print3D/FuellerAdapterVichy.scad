@@ -1,9 +1,9 @@
 /* mail@AndreBetz.de Zwieselbrau.de*/
 
 AdapterAussen = 35;
-AdapterH      =  5;
+AdapterH      =  4;
 AdapterL      = 20;
-VichyDInnen   = 25;
+VichyDInnen   = 26;
 
 $fn = 128;
 
