@@ -3,6 +3,7 @@
 #define __WAITTIME__
 
 #include <Arduino.h>
+#include "DbgConsole.h"
 ///////////////////////////////////////////////////////////////////////////////
 // wait timer
 ///////////////////////////////////////////////////////////////////////////////
@@ -20,6 +21,8 @@ class WaitTime
     {
       mWaitTime = interval;
       init();
+      CONSOLE(F("SetTime:"));
+      CONSOLELN((int)mWaitTime);
     }
     void init()
     {
@@ -52,6 +55,8 @@ class WaitTime
       if ( false == mInitialized )
       {
         mStartTime = millis();
+        CONSOLE(F("start:"));
+        CONSOLELN(mStartTime);
         mInitialized = true;
       }
     }
@@ -77,6 +82,8 @@ class WaitTime
         mDuration = actTime - mStartTime;
         if ( mDuration >= mWaitTime )
         {
+          CONSOLE(F("timeOver:"));
+          CONSOLELN(mDuration);
           mDuration = mWaitTime;
           return true;
         }
