@@ -11,20 +11,22 @@
 // defines
 ///////////////////////////////////////////////
 //#define NO_CONSOLE
-#define SENSORSIM
 #define MAXBUTTONS          6
 #define PINLCD              10
 #define PINKEY              0
 #define PINWATER            1
-#define PINGE               13  //D13
+#define PINGE               11  //D13
 #define PINGA               12  //D12
-#define PINBE               11  //D11
-#define DEFGASSPUELEN       2000
-#define DEFGASFUELLEN       2000
-#define DEFBIERRUHE         2000
+#define PINBE               13  //D11
+#define DEFGASSPUELEN       2
+#define DEFGASFUELLEN       2
+#define DEFBIERRUHE         2
 #define DEFTOWATER          500
 #define VENTILZU            false
 #define VENTILAUF           true
+#define TIMEADDDELTA        1
+#define TOWATERADDDELTA     50
+
 ///////////////////////////////////////////////
 // ENUMS
 ///////////////////////////////////////////////
@@ -41,7 +43,10 @@ enum STATES
 enum MENU
 {
   MENU_SELECT = 1,
-  MENU_SETUP
+  MENU_SETUP_SPUELEN,
+  MENU_SETUP_FUELLEN,
+  MENU_SETUP_RUHE,
+  MENU_SETUP_AUSLOESE
 };
 enum BUTTONS
 {
@@ -71,10 +76,11 @@ struct Ventile
 ///////////////////////////////////////////////
 // VARIABLES
 ///////////////////////////////////////////////
-int actState = STATE_START;
-int actMenu  = MENU_SELECT;
-int subMenuSelect = 0;
-bool   btnPressed[MAXBUTTONS]    = {false, false, false, false, false, false};
+int               actState = STATE_START;
+int               actMenu  = MENU_SELECT;
+int               subMenuSelect = 0;
+bool              btnPressed[MAXBUTTONS]    = {false, false, false, false, false, false};
+bool              sensorContact = false;
 LiquidCrystal     lcd(8, 9, 4, 5, 6, 7);
 StorageEEProm     store;
 WaitTime          timerGasSpuelen;
@@ -223,6 +229,39 @@ bool SubStateChange(int maxStates)
   return getOK;
 }
 ///////////////////////////////////////////////////////////////////////////////
+// isSensorKontakt
+///////////////////////////////////////////////////////////////////////////////
+bool isSensorKontakt()
+{
+  bool val = false;
+  bool val_old = false;
+
+  if ( false == sensorContact )
+  {
+    val = isButtonPressed(BUTTON_RIGHT);
+    if ( false == val)
+    {
+      do
+      {
+        val_old = val;
+        int rd = analogRead(PINWATER);
+        if ( fillTimes.toWater > rd )
+          val = true;
+        else
+          val = false;
+        delay(10);
+      }
+      while ( val != val_old );
+    }
+  }
+  if ( val )
+  {
+    sensorContact = true;
+    CONSOLELN(F("SensorOn"));
+  }
+  return sensorContact;
+}
+///////////////////////////////////////////////////////////////////////////////
 // restart
 ///////////////////////////////////////////////////////////////////////////////
 void restart()
@@ -240,6 +279,7 @@ void restart()
   timerGasFuellen.init();
   timerGasSpuelen.init();
   resetButtons();
+  sensorContact = false;
 }
 void GasEinlass(bool onOf)
 {
@@ -272,36 +312,6 @@ void BierEinlass(bool onOf)
   }
 }
 ///////////////////////////////////////////////////////////////////////////////
-// isSensorKontakt
-///////////////////////////////////////////////////////////////////////////////
-bool isSensorKontakt()
-{
-  bool ret = false;
-#ifdef SENSORSIM
-  ret = isButtonPressed(BUTTON_RIGHT);
-#else
-  int x;
-  int val = 0;
-  int val_old = 0;
-
-  do
-  {
-    val_old = val;
-    val = analogRead(PINWATER);
-    delay(10);
-  }
-  while ( val != val_old );
-
-  if ( fillTimes.toWater > val )
-  {
-    ret = true;
-    CONSOLELN(F("SensorOn"));
-  }
-  
-#endif
-  return ret;
-}
-///////////////////////////////////////////////////////////////////////////////
 // setup
 ///////////////////////////////////////////////////////////////////////////////
 void setup() {
@@ -316,16 +326,16 @@ void setup() {
   digitalWrite(PINLCD, HIGH);
   restart();
   printLogo();
-  timerGasSpuelen.setTime(fillTimes.gasSpuelen);
-  timerGasFuellen.setTime(fillTimes.gasSpuelen);
-  timerBierRuhe.setTime(fillTimes.bierRuhe);
+  timerGasSpuelen.setTime(fillTimes.gasSpuelen*MIL2SEC);
+  timerGasFuellen.setTime(fillTimes.gasSpuelen*MIL2SEC);
+  timerBierRuhe.setTime(fillTimes.bierRuhe*MIL2SEC);
 }
 ///////////////////////////////////////////////////////////////////////////////
 // menu
 ///////////////////////////////////////////////////////////////////////////////
 void menu()
 {
-  lcd.setCursor(0, 0);
+  lcd.setCursor(0,0);
   if ( MENU_SELECT == actMenu )
   {
     if ( true == SubStateChange(2) )
@@ -336,10 +346,15 @@ void menu()
           actState = STATE_CO2SPUELEN;
           lcd.clear();
           lcd.setCursor(0, 0);
-          lcd.print(F("CO2SPUELEN"));
+          lcd.print(F("CO2 Spuelen"));
           CONSOLELN(F("CO2SPUELEN"));
           break;
         case 1:
+          actMenu = MENU_SETUP_SPUELEN;
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print(F("SETUP"));
+          CONSOLELN(F("SETUP"));
           break;
       }
     }
@@ -358,9 +373,89 @@ void menu()
       }
     }
   }
-  else if ( MENU_SETUP == actMenu )
+  else if ( MENU_SETUP_SPUELEN == actMenu )
   {
+    lcd.print(F("CO2 Spuelzeit [s]"));
+    lcd.setCursor(0, 1);
+    lcd.print(fillTimes.gasSpuelen);
 
+    if ( isButtonPressed ( BUTTON_UP ) )
+      fillTimes.gasSpuelen += TIMEADDDELTA;
+    else if ( isButtonPressed ( BUTTON_DOWN ) )
+    {
+      if ( 0 < fillTimes.gasSpuelen )
+        fillTimes.gasSpuelen -= TIMEADDDELTA;
+    }
+    else if ( isButtonPressed ( BUTTON_LEFT ) )
+    {
+      actMenu = MENU_SETUP_FUELLEN;
+      lcd.clear();
+      CONSOLELN( fillTimes.gasSpuelen );
+    }
+  }
+  else if ( MENU_SETUP_FUELLEN == actMenu )
+  {
+    lcd.print(F("CO2 Fuellzeit [s]"));
+    lcd.setCursor(0, 1);
+    lcd.print(fillTimes.gasFuellen);
+
+    if ( isButtonPressed ( BUTTON_UP ) )
+      fillTimes.gasFuellen += TIMEADDDELTA;
+    else if ( isButtonPressed ( BUTTON_DOWN ) )
+    {
+      if ( 0 < fillTimes.gasFuellen )
+        fillTimes.gasFuellen -= TIMEADDDELTA;
+    }
+    else if ( isButtonPressed ( BUTTON_LEFT ) )
+    {
+      actMenu = MENU_SETUP_RUHE;
+      lcd.clear();
+      CONSOLELN( fillTimes.gasFuellen );
+    }
+  }
+  else if ( MENU_SETUP_RUHE == actMenu )
+  {
+    lcd.print(F("Bier Ruhe [s]"));
+    lcd.setCursor(0, 1);
+    lcd.print(fillTimes.bierRuhe);
+
+    if ( isButtonPressed ( BUTTON_UP ) )
+      fillTimes.bierRuhe += TIMEADDDELTA;
+    else if ( isButtonPressed ( BUTTON_DOWN ) )
+    {
+      if ( 0 < fillTimes.bierRuhe )
+        fillTimes.bierRuhe -= TIMEADDDELTA;
+    }
+    else if ( isButtonPressed ( BUTTON_LEFT ) )
+    {
+      actMenu = MENU_SETUP_AUSLOESE;
+      lcd.clear();
+      CONSOLELN( fillTimes.bierRuhe );
+    }
+  }
+  else if ( MENU_SETUP_AUSLOESE == actMenu )
+  {
+    lcd.print(F("Ausloese Schwelle"));
+    lcd.setCursor(0, 1);
+    lcd.print(fillTimes.toWater);
+
+    if ( isButtonPressed ( BUTTON_UP ) )
+    {
+      if ( 1023 > fillTimes.toWater )
+        fillTimes.toWater += TOWATERADDDELTA;
+    }
+    else if ( isButtonPressed ( BUTTON_DOWN ) )
+    {
+      if ( 0 < fillTimes.toWater )
+        fillTimes.toWater -= TOWATERADDDELTA;
+    }
+    else if ( isButtonPressed ( BUTTON_LEFT ) )
+    {
+      actMenu = MENU_SELECT;
+      lcd.clear();
+      store.save(0, sizeof(Times), (char*)&fillTimes);
+      CONSOLELN( fillTimes.toWater );
+    }
   }
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -387,7 +482,7 @@ void loop() {
       CONSOLELN(F("CO2FUELLEN"));
       lcd.clear();
       lcd.setCursor(0, 0);
-      lcd.print(F("CO2FUELLEN"));
+      lcd.print(F("CO2 Fuellen"));
     }
   }
   else if ( STATE_CO2FUELLEN == actState )
@@ -410,10 +505,11 @@ void loop() {
     GasEinlass(VENTILZU);
     BierEinlass(VENTILAUF);
     actState = STATE_PRUEFEVOLL;
-    CONSOLELN(F("BIERFUELLEN"));
+    sensorContact = false;
+    CONSOLELN(F("Bier Fuellen"));
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print(F("BIERFUELLEN"));    
+    lcd.print(F("Bier Fuellen"));    
   }
   else if ( STATE_PRUEFEVOLL == actState )
   {
@@ -431,7 +527,7 @@ void loop() {
         CONSOLELN(F("FLASCHEVOLL"));
         lcd.clear();
         lcd.setCursor(0, 0);
-        lcd.print(F("FLASCHEVOLL"));            
+        lcd.print(F("Bier Ruhe"));            
       }
       else
       {
@@ -440,7 +536,7 @@ void loop() {
         CONSOLELN(F("FLASCHEVOLL"));
         lcd.clear();
         lcd.setCursor(0, 0);
-        lcd.print(F("FLASCHEVOLL"));            
+        lcd.print(F("Flasche Voll"));            
       }
     }
   }
@@ -456,7 +552,7 @@ void loop() {
       GasEinlass(VENTILZU);
       BierEinlass(VENTILZU);
       actState = STATE_ENDE;
-      CONSOLELN(F("ENDE"));
+      CONSOLELN(F("Ende"));
     }
   }
   else if ( STATE_ENDE == actState )
