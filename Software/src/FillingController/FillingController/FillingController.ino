@@ -26,6 +26,7 @@
 #define VENTILAUF           true
 #define TIMEADDDELTA        1
 #define TOWATERADDDELTA     50
+#define PRINTCONTACTVAL     500
 
 ///////////////////////////////////////////////
 // ENUMS
@@ -86,6 +87,7 @@ StorageEEProm     store;
 WaitTime          timerGasSpuelen;
 WaitTime          timerGasFuellen;
 WaitTime          timerBierRuhe;
+WaitTime          timerPrintContactVal;
 ///////////////////////////////////////////////////////////////////////////////
 // setDefaultValues
 ///////////////////////////////////////////////////////////////////////////////
@@ -236,6 +238,7 @@ bool isSensorKontakt()
   bool val = false;
   bool val_old = false;
 
+  timerBierRuhe.start();
   if ( false == sensorContact )
   {
     val = isButtonPressed(BUTTON_RIGHT);
@@ -245,6 +248,12 @@ bool isSensorKontakt()
       {
         val_old = val;
         int rd = analogRead(PINWATER);
+        if ( timerBierRuhe.timeOver())
+        {
+          CONSOLE(F("tv:"));
+          CONSOLELN(rd);
+          timerBierRuhe.restart();
+        }
         if ( fillTimes.toWater > rd )
           val = true;
         else
@@ -329,6 +338,7 @@ void setup() {
   timerGasSpuelen.setTime(fillTimes.gasSpuelen*MIL2SEC);
   timerGasFuellen.setTime(fillTimes.gasSpuelen*MIL2SEC);
   timerBierRuhe.setTime(fillTimes.bierRuhe*MIL2SEC);
+  timerPrintContactVal.setTime(PRINTCONTACTVAL);
 }
 ///////////////////////////////////////////////////////////////////////////////
 // menu
