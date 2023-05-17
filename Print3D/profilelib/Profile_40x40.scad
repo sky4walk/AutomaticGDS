@@ -1,5 +1,3 @@
-length = 150;
-
 slot_type = "B"; // ["B","I"]
 flat_sides = "NONE"; // ["None","A","AB","ABC","ABCD", "AC"] 
 

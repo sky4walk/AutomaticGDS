@@ -2,11 +2,9 @@
 // Scott Alfter
 // 20 July 2018
 
-corner_bracket();
-
 nominal_extrusion_width=40; 
 screw_diameter=5;
-gap=0.4; // adjust for a snug fit
+gap=0.8; // adjust for a snug fit
 thickness=2.8; 
 
 tw=(nominal_extrusion_width+gap+2*thickness); // total width
@@ -28,9 +26,11 @@ module corner_bracket()
 
 module connector()
 {
-	translate([0,0,tw])  rotate([90,0,0]) tube();
-	translate([0,0,0])   rotate([90,0,0]) tube();
+    translate([0,0,1.5*tw]){
+//	translate([0,0,tw])  rotate([90,0,0]) tube();
+//	translate([0,0,0])   rotate([90,0,0]) tube();
 	translate([0,0,-tw]) rotate([90,0,0]) tube();
+    }
 }
 
 module t_bracket()
