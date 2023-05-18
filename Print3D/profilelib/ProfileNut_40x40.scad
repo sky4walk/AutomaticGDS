@@ -1,22 +1,8 @@
-
+// Andre Betz
+// github@AndreBetz.de
 module Nut_Profile(zoom)
 {
-    scale (zoom) polygon([ [0, -1.5], [3, -1.5], [3, 0], [5.25, 0], [5.25, 1.4], [3, 3.9], [0, 3.9] ]);
-}
-
-
-module rotating_nut()
-{
-    union() 
-    {
-        rotate([90, 0, 0]) linear_extrude(height=3) Nut_Profile();
-        rotate([0, 0, 180]) rotate([90, 0, 0]) linear_extrude(height=3) Nut_Profile();
-        intersection() 
-        {
-            rotate_extrude($fn=32) Nut_Profile();
-            translate([-5.25, -3, -10]) cube([10.5, 6, 20]);
-        }
-    }
+    scale (zoom) polygon([ [0, -3], [3, -3], [3, 0], [9.5, 0], [9.5, 3.5], [3, 9], [0, 9] ]);
 }
 
 module sliding_nut(length=10.5,zoom=1.0)
@@ -39,6 +25,7 @@ module cutout(m=2)
 
 module ProfileNut(zoom=1.0)
 {
+    translate([0,0,-9])
     difference() 
     {
         sliding_nut(20,zoom);

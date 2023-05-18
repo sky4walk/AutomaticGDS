@@ -42,7 +42,16 @@ module t_bracket()
 	translate([tw,0,tw]) brace();
 	translate([tw,0,-tw])rotate([180,0,0])brace();
 }
-
+module small_corner() // three panels and three edges in a corner
+{
+    translate([0,0,iw+thickness/2]){
+        t();   
+        translate([0,0,tw])  rotate([90,0,0]) tube();
+        translate([tw,0,0])  rotate([0,0,90]) tube();
+        translate([tw,0,tw]) brace();
+        translate([0,0,-iw]) panel();
+    }
+}
 module double_t_bracket()
 {
 	dt();
@@ -81,6 +90,8 @@ module corner() // three panels and three edges in a corner
 	translate([0,-iw,0])    rotate([90,0,0])    panel();
 	translate([-iw,0,0])    rotate([0,90,0])    panel();
 }
+
+
 
 module t() // three panels and two edges in a T
 {
