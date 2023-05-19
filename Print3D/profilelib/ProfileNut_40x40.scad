@@ -15,6 +15,25 @@ module Nut_Profile()
     polygon([ [0, -3], [3, -3], [3, 0], [9.5, 0], [9.5, 3.5], [3, 9], [0, 9] ]);
 }
 
+module Corner_Profile()
+{
+    d=NutDistance*2;
+    polygon([[0,0],[d,0],[0,d]]);
+}
+
+module Corner_40x40x2_M5()
+{
+    difference()
+    {
+        rotate([90, 0, 0]) translate([0,0,-ProfileSize])
+            linear_extrude(height=ProfileSize) Corner_Profile();
+        translate([NutDistance/2, ProfileSize/2, -.1])
+            cylinder(h=ProfileSize,d=screwM5+gap,$fn=16);
+        translate([NutDistance/2*3, ProfileSize/2, -.1])
+            cylinder(h=ProfileSize,d=screwM5+gap,$fn=16);
+    }
+}
+
 module sliding_nut()
 {
     rotate([90, 0, 0]) translate([0, 0, -NutDistance/2]) linear_extrude(height=NutDistance) union() 
@@ -120,3 +139,5 @@ module CubeDouble_40x40()
     Cube_40x40();
     translate([NutDistance*2,0,0]) Cube_40x40();
 }
+
+Corner_40x40x2_M5();
