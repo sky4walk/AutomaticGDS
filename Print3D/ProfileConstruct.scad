@@ -1,9 +1,7 @@
 // Andre Betz
 // github@AndreBetz.de
 
-use <threadlib/threadlib.scad>;
 use <profilelib/Profile_40x40.scad>;
-use <profilelib/ProfileConnectors_40x40.scad>;
 use <profilelib/ProfileNut_40x40.scad>;
 
 lengthProfile = 150;
@@ -16,5 +14,6 @@ zoomNut=1;
 //small_corner();
 //connector();
 //translate([15, 25, 38]) rotate([90,0,0]) QuadProfileNut();
-//translate([30, 0, -25]) rotate([180,90,90]) QuadProfileNut();
+//translate([40, -10, 25]) rotate([180,90,90]) QuadProfileNutScrewM5();
+//QuadProfileNutScrewM5();
 CubeDouble_40x40();

@@ -4,9 +4,10 @@
 use <../threadlib/threadlib.scad>;
 
 NutDistance=20;
-thickness=4;
+thickness=3;
 gap=.8;
 screwM3=3;
+screwM5=5;
 ProfileSize=40;
 
 module Nut_Profile()
@@ -51,6 +52,16 @@ module ProfileNutScrewM3()
     }
     translate([0, 0, -11.5]) nut("M3x0.5", turns=22, Douter=1);
 }
+module ProfileNutScrewM5()
+{
+    hight = 4;
+    difference() 
+    {
+        translate([0,0,-9]) sliding_nut();
+        translate([0, 0, -20]) cylinder(h=21, d=0.2+5, $fn=16);
+    }
+    translate([0, 0, -11.5]) nut("M5x0.5", turns=22, Douter=1);
+}
 module DoubleProfileNut()
 {
     translate([0,-NutDistance/2,0])ProfileNut();
@@ -61,15 +72,25 @@ module QuadProfileNut()
     translate([0,-NutDistance,0])DoubleProfileNut();
     translate([0,+NutDistance,0])DoubleProfileNut();
 }
-module DoubleProfileNutScrew()
+module DoubleProfileNutScrewM3()
 {
     translate([0,-NutDistance/2,0])ProfileNutScrewM3();
     translate([0,+NutDistance/2,0])ProfileNutScrewM3();
 }
-module QuadProfileNutScrew()
+module QuadProfileNutScrewM3()
 {
-    translate([0,-NutDistance,0])DoubleProfileNutScrew();
-    translate([0,+NutDistance,0])DoubleProfileNutScrew();
+    translate([0,-NutDistance,0])DoubleProfileNutScrewM3();
+    translate([0,+NutDistance,0])DoubleProfileNutScrewM3();
+}
+module DoubleProfileNutScrewM5()
+{
+    translate([0,-NutDistance/2,0])ProfileNutScrewM5();
+    translate([0,+NutDistance/2,0])ProfileNutScrewM5();
+}
+module QuadProfileNutScrewM5()
+{
+    translate([0,-NutDistance,0])DoubleProfileNutScrewM5();
+    translate([0,+NutDistance,0])DoubleProfileNutScrewM5();
 }
 
 module PanelSide_40x40()
@@ -78,8 +99,8 @@ module PanelSide_40x40()
     difference()
     {
         cube([NutDistance*2,ProfileSize+2*thickness+gap,thickness]);
-        translate([NutDistance/2, (ProfileSize+2*thickness+gap)/2, -gap]) cylinder(h=thickness+2*gap, d=0.2+screwM3, $fn=16);
-        translate([NutDistance/2+NutDistance, (ProfileSize+2*thickness+gap)/2, -gap]) cylinder(h=thickness+2*gap, d=0.2+screwM3, $fn=16);
+        translate([NutDistance/2, (ProfileSize+2*thickness+gap)/2, -gap]) cylinder(h=thickness+2*gap, d=0.2+screwM5, $fn=16);
+        translate([NutDistance/2+NutDistance, (ProfileSize+2*thickness+gap)/2, -gap]) cylinder(h=thickness+2*gap, d=0.2+screwM5, $fn=16);
     }
 }
 module ConnectorOneSide_40x40()
