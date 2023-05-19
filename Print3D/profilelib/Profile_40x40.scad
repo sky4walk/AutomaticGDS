@@ -82,3 +82,8 @@ module profile() {
     
 }
 
+module Profile_40x40x150()
+{
+    linear_extrude(height=150)    profile();
+}
+
