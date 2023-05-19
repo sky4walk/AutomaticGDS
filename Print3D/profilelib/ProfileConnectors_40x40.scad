@@ -3,7 +3,7 @@
 // 20 July 2018
 
 nominal_extrusion_width=40; 
-screw_diameter=5;
+screw_diameter=3;
 gap=0.8; // adjust for a snug fit
 thickness=2.8; 
 
@@ -28,7 +28,7 @@ module connector()
 {
     translate([0,0,1.5*tw]){
 //	translate([0,0,tw])  rotate([90,0,0]) tube();
-//	translate([0,0,0])   rotate([90,0,0]) tube();
+	translate([0,0,0])   rotate([90,0,0]) tube();
 	translate([0,0,-tw]) rotate([90,0,0]) tube();
     }
 }

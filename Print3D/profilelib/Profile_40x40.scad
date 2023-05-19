@@ -82,4 +82,3 @@ module profile() {
     
 }
 
-linear_extrude(height=length)profile();
