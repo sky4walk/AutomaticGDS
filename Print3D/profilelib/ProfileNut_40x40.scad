@@ -36,10 +36,10 @@ module Corner_40x40x2_M5()
             cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
         translate([-0.1, ProfileSize/2, NutDistance/2*3])rotate([0, 90, 0])
             cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
-        translate([NutDistance/2-screwM5, ProfileSize/2-screwM5,NutDistance/2*3-screwM5])
-            cube([screwM5*2,screwM5*2,screwM5*2]);
-        translate([NutDistance/2*3-screwM5, ProfileSize/2-screwM5,NutDistance/2-screwM5])
-            cube([screwM5*2,screwM5*2,screwM5*2]);
+        translate([NutDistance/2-screwM5, ProfileSize/2-screwM5,NutDistance/2*3-screwM5*2])
+            cube([screwM5*3,screwM5*2,screwM5*3]);
+        translate([NutDistance/2*3-screwM5*2, ProfileSize/2-screwM5,NutDistance/2-screwM5])
+            cube([screwM5*3,screwM5*2,screwM5*3]);
     }
 }
 
@@ -149,4 +149,3 @@ module CubeDouble_40x40()
     translate([NutDistance*2,0,0]) Cube_40x40();
 }
 
-Corner_40x40x2_M5();

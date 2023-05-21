@@ -76,7 +76,7 @@ module Innereien()
         translate([-2*ZylinderUH/3,WuerfelX/2,-WuerfelY/2-rundung])
             cylinder(d=ZylinderS1D,h=WuerfelY/2+2*rundung);
     // aussparung gewinde seitlich
-    rotate([90,90,0])
+     rotate([90,90,0])
         translate([-2*ZylinderUH/3,WuerfelX/2,-Nut14H-rundung])
             cylinder(d=Nut14D,h=Nut14H+2*rundung);
 
