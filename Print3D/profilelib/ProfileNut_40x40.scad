@@ -4,11 +4,12 @@
 use <../threadlib/threadlib.scad>;
 
 NutDistance=20;
-thickness=3;
+thickness=2;
 gap=.8;
 screwM3=3;
 screwM5=5;
-ProfileSize=40;
+ProfileSize=25;
+screwDrewS=10;
 
 module Nut_Profile()
 {
@@ -25,12 +26,20 @@ module Corner_40x40x2_M5()
 {
     difference()
     {
-        rotate([90, 0, 0]) translate([0,0,-ProfileSize])
+        rotate([90, 0, 0]) translate([0,0,-ProfileSize]) 
             linear_extrude(height=ProfileSize) Corner_Profile();
         translate([NutDistance/2, ProfileSize/2, -.1])
-            cylinder(h=ProfileSize,d=screwM5+gap,$fn=16);
+            cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
         translate([NutDistance/2*3, ProfileSize/2, -.1])
-            cylinder(h=ProfileSize,d=screwM5+gap,$fn=16);
+            cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
+        translate([-0.1, ProfileSize/2, NutDistance/2])rotate([0, 90, 0])
+            cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
+        translate([-0.1, ProfileSize/2, NutDistance/2*3])rotate([0, 90, 0])
+            cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
+        translate([NutDistance/2-screwM5, ProfileSize/2-screwM5,NutDistance/2*3-screwM5])
+            cube([screwM5*2,screwM5*2,screwM5*2]);
+        translate([NutDistance/2*3-screwM5, ProfileSize/2-screwM5,NutDistance/2-screwM5])
+            cube([screwM5*2,screwM5*2,screwM5*2]);
     }
 }
 
