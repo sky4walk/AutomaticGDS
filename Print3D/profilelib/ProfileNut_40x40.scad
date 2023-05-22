@@ -8,7 +8,7 @@ thickness=2.5;
 gap=.8;
 screwM3=3;
 screwM5=5;
-wandDicke=3;
+wandDicke=5;
 ProfileSize=40;
 screwDrewS=10;
 
@@ -27,18 +27,18 @@ module Corner_40x40x2_M5()
     difference()
     {
         rotate([90, 0, 0]) translate([0,0,-ProfileSize]) 
-            linear_extrude(height=ProfileSize) Corner_Profile(NutDistance*2,NutDistance*2);
-        translate([NutDistance/2, ProfileSize/2, -.1])
+            linear_extrude(height=ProfileSize) Corner_Profile(NutDistance*5/2,NutDistance*5/2);
+        translate([NutDistance, ProfileSize/2, -.1])
             cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
-        translate([NutDistance/2*3, ProfileSize/2, -.1])
+        translate([NutDistance*2, ProfileSize/2, -.1])
             cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
-        translate([-0.1, ProfileSize/2, NutDistance/2])rotate([0, 90, 0])
+        translate([-0.1, ProfileSize/2, NutDistance])rotate([0, 90, 0])
             cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
-        translate([-0.1, ProfileSize/2, NutDistance/2*3])rotate([0, 90, 0])
+        translate([-0.1, ProfileSize/2, NutDistance*2])rotate([0, 90, 0])
             cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
         //ausschnitt
-        translate([wandDicke, ProfileSize/2-screwM5,wandDicke])
-            cube([NutDistance*2,screwM5*2,NutDistance*2]);
+        translate([wandDicke, ProfileSize/2-screwM5*2,wandDicke])
+            cube([NutDistance*2,screwM5*4,NutDistance*2]);
     }
 }
 
