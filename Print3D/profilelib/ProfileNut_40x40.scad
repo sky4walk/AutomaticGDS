@@ -8,7 +8,8 @@ thickness=2;
 gap=.8;
 screwM3=3;
 screwM5=5;
-ProfileSize=25;
+wandDicke=3;
+ProfileSize=30;
 screwDrewS=10;
 
 module Nut_Profile()
@@ -16,10 +17,9 @@ module Nut_Profile()
     polygon([ [0, -3], [3, -3], [3, 0], [9.5, 0], [9.5, 3.5], [3, 9], [0, 9] ]);
 }
 
-module Corner_Profile()
+module Corner_Profile(size)
 {
-    d=NutDistance*2;
-    polygon([[0,0],[d,0],[0,d]]);
+    polygon([[0,0],[size,0],[0,size]]);
 }
 
 module Corner_40x40x2_M5()
@@ -27,7 +27,7 @@ module Corner_40x40x2_M5()
     difference()
     {
         rotate([90, 0, 0]) translate([0,0,-ProfileSize]) 
-            linear_extrude(height=ProfileSize) Corner_Profile();
+            linear_extrude(height=ProfileSize) Corner_Profile(NutDistance*2);
         translate([NutDistance/2, ProfileSize/2, -.1])
             cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
         translate([NutDistance/2*3, ProfileSize/2, -.1])
@@ -36,10 +36,36 @@ module Corner_40x40x2_M5()
             cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
         translate([-0.1, ProfileSize/2, NutDistance/2*3])rotate([0, 90, 0])
             cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
-        translate([NutDistance/2-screwM5, ProfileSize/2-screwM5,NutDistance/2*3-screwM5*2])
-            cube([screwM5*3,screwM5*2,screwM5*3]);
-        translate([NutDistance/2*3-screwM5*2, ProfileSize/2-screwM5,NutDistance/2-screwM5])
-            cube([screwM5*3,screwM5*2,screwM5*3]);
+        //ausschnitt
+        translate([wandDicke, ProfileSize/2-screwM5,wandDicke])
+            cube([NutDistance*2,screwM5*2,NutDistance*2]);
+    }
+}
+
+module CornerTriangle_40x40x2_M5()
+{
+    profileSize=40;
+    difference()
+    {
+        linear_extrude(height=wandDicke) Corner_Profile(profileSize+NutDistance*2);
+        
+        translate([NutDistance/2, NutDistance/2 , -.1])
+            cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
+        translate([NutDistance/2*3, NutDistance/2 , -.1])
+            cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
+        translate([NutDistance/2*5, NutDistance/2 , -.1])
+            cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
+        translate([NutDistance/2*6, -.1, -.1])
+            cube([NutDistance,NutDistance,wandDicke+.2]);
+        
+        translate([NutDistance/2, NutDistance/2 , -.1])
+            cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
+        translate([NutDistance/2, NutDistance/2*3 , -.1])
+            cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
+        translate([NutDistance/2, NutDistance/2*5 , -.1])
+            cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
+        translate([-.1,NutDistance/2*6,-.1])
+            cube([NutDistance,NutDistance,wandDicke+.2]);
     }
 }
 
