@@ -102,9 +102,13 @@ module Gewinde()
             nut("M3x0.5", turns=27, Douter=ZylinderO2D+rundung);
 }
 
-difference()
+module FuellKopf()
 {
-    Aussereien();
-    Innereien();
+    difference()
+    {
+        Aussereien();
+        Innereien();
+    }
+    Gewinde();
 }
-Gewinde();
+FuellKopf();

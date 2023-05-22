@@ -4,12 +4,12 @@
 use <../threadlib/threadlib.scad>;
 
 NutDistance=20;
-thickness=2;
+thickness=2.5;
 gap=.8;
 screwM3=3;
 screwM5=5;
 wandDicke=3;
-ProfileSize=30;
+ProfileSize=40;
 screwDrewS=10;
 
 module Nut_Profile()
@@ -17,9 +17,9 @@ module Nut_Profile()
     polygon([ [0, -3], [3, -3], [3, 0], [9.5, 0], [9.5, 3.5], [3, 9], [0, 9] ]);
 }
 
-module Corner_Profile(size)
+module Corner_Profile(size1,size2)
 {
-    polygon([[0,0],[size,0],[0,size]]);
+    polygon([[0,0],[size1,0],[0,size2]]);
 }
 
 module Corner_40x40x2_M5()
@@ -27,7 +27,7 @@ module Corner_40x40x2_M5()
     difference()
     {
         rotate([90, 0, 0]) translate([0,0,-ProfileSize]) 
-            linear_extrude(height=ProfileSize) Corner_Profile(NutDistance*2);
+            linear_extrude(height=ProfileSize) Corner_Profile(NutDistance*2,NutDistance*2);
         translate([NutDistance/2, ProfileSize/2, -.1])
             cylinder(h=NutDistance*2,d=screwM5+gap,$fn=16);
         translate([NutDistance/2*3, ProfileSize/2, -.1])
@@ -47,7 +47,7 @@ module CornerTriangle_40x40x2_M5()
     profileSize=40;
     difference()
     {
-        linear_extrude(height=wandDicke) Corner_Profile(profileSize+NutDistance*2);
+        linear_extrude(height=wandDicke) Corner_Profile(profileSize+NutDistance*2,profileSize+NutDistance*4);
         
         translate([NutDistance/2, NutDistance/2 , -.1])
             cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
@@ -55,17 +55,15 @@ module CornerTriangle_40x40x2_M5()
             cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
         translate([NutDistance/2*5, NutDistance/2 , -.1])
             cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
-        translate([NutDistance/2*6, -.1, -.1])
-            cube([NutDistance,NutDistance,wandDicke+.2]);
+        translate([NutDistance/2*6, -.1, -.1])  cube([NutDistance,NutDistance*2,wandDicke+.2]);
         
-        translate([NutDistance/2, NutDistance/2 , -.1])
+        translate([NutDistance/2, NutDistance*2 , -.1])
             cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
-        translate([NutDistance/2, NutDistance/2*3 , -.1])
+        translate([NutDistance/2, NutDistance*3 , -.1])
             cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
-        translate([NutDistance/2, NutDistance/2*5 , -.1])
+        translate([NutDistance/2, NutDistance*4 , -.1])
             cylinder(h=wandDicke*2,d=screwM5+gap,$fn=16);
-        translate([-.1,NutDistance/2*6,-.1])
-            cube([NutDistance,NutDistance,wandDicke+.2]);
+        translate([-0.1,NutDistance/2*9,-.1])    cube([NutDistance,NutDistance*2,wandDicke+.2]);
     }
 }
 
@@ -147,14 +145,14 @@ module QuadProfileNutScrewM5()
     translate([0,+NutDistance,0])DoubleProfileNutScrewM5();
 }
 
-module PanelSide_40x40()
+module PanelSide_40x40(d=thickness)
 {
     
     difference()
     {
-        cube([NutDistance*2,ProfileSize+2*thickness+gap,thickness]);
-        translate([NutDistance/2, (ProfileSize+2*thickness+gap)/2, -gap]) cylinder(h=thickness+2*gap, d=0.2+screwM5, $fn=16);
-        translate([NutDistance/2+NutDistance, (ProfileSize+2*thickness+gap)/2, -gap]) cylinder(h=thickness+2*gap, d=0.2+screwM5, $fn=16);
+        cube([NutDistance*2,ProfileSize+2*d+gap,d]);
+        translate([NutDistance/2, (ProfileSize+2*d+gap)/2, -gap]) cylinder(h=d+2*gap, d=0.2+screwM5, $fn=16);
+        translate([NutDistance/2+NutDistance, (ProfileSize+2*d+gap)/2, -gap]) cylinder(h=d+2*gap, d=0.2+screwM5, $fn=16);
     }
 }
 module ConnectorOneSide_40x40()
@@ -162,16 +160,60 @@ module ConnectorOneSide_40x40()
     PanelSide_40x40();
     translate([NutDistance*2,0,0]) PanelSide_40x40();
 }
-module Cube_40x40()
+module Cube_40x40(d=thickness)
 {
-    PanelSide_40x40();
-    translate([0,0,ProfileSize+gap+thickness]) PanelSide_40x40();
-    translate([0,thickness,0]) rotate([90,0,0]) PanelSide_40x40();
-    translate([0,thickness*2+gap+ProfileSize,0]) rotate([90,0,0]) PanelSide_40x40();
+    PanelSide_40x40(d);
+    translate([0,0,ProfileSize+gap+d]) PanelSide_40x40(d);
+    translate([0,d,0]) rotate([90,0,0]) PanelSide_40x40(d);
+    translate([0,d*2+gap+ProfileSize,0]) rotate([90,0,0]) PanelSide_40x40(d);
 }
 module CubeDouble_40x40()
 {
     Cube_40x40();
     translate([NutDistance*2,0,0]) Cube_40x40();
+}
+
+module FuellKopfCube_40x40()
+{
+    distanceFuellKopf=70;
+    dicke = 5;
+    rundung = gap;
+    dim=20;
+    WuerfelX     = 50;
+    WuerfelY     = 45;
+    WuerfelZ     = 60-dim;
+    HalterungD   = 6;
+    moveX        = 2;
+    HalterungX1  = 12.5+moveX;
+    HalterungX2  = HalterungX1+25.0;
+    HalterungY1  = 27.5;
+    HalterungY2  = HalterungY1+20.0;
+
+
+    translate([-distanceFuellKopf,dicke/2,ProfileSize]) rotate([0,90,90])
+    {
+        Cube_40x40(dicke);
+        translate([0,-distanceFuellKopf,0]) cube([40,distanceFuellKopf,dicke]);
+        translate([0,-distanceFuellKopf,ProfileSize+gap+dicke]) cube([40,distanceFuellKopf,dicke]);
+    }    
+    difference()
+    {
+        cube([WuerfelX+dicke*2,WuerfelY+dicke*2,WuerfelZ],false);
+
+        translate([dicke-gap,dicke-gap,-gap]) cube([WuerfelX+2*gap,WuerfelY+2*gap,WuerfelZ+2*gap],false);
+    
+        rotate([-90,0,0])
+            translate([HalterungX1+dicke,-HalterungY1+dim,-rundung])
+                cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
+        rotate([-90,0,0])
+            translate([HalterungX1+dicke,-HalterungY2+dim,-rundung])
+                cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
+        rotate([-90,0,0])
+            translate([HalterungX2+dicke,-HalterungY1+dim,-rundung])
+                cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
+        rotate([-90,0,0])
+            translate([HalterungX2+dicke,-HalterungY2+dim,-rundung])
+                cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
+    }
 }
 
