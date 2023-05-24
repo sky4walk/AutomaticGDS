@@ -14,7 +14,7 @@ screwDrewS=10;
 
 module Nut_Profile()
 {
-    polygon([ [0, -3], [3, -3], [3, 0], [9.5, 0], [9.5, 3.5], [3, 9], [0, 9] ]);
+    polygon([ [0, -3], [3, -3], [3, 0], [9.5, 0], [9.5, 3.5], [3, 7], [0, 7] ]);
 }
 
 module Corner_Profile(size1,size2)
@@ -102,7 +102,7 @@ module ProfileNutScrewM3()
         translate([0,0,-9]) sliding_nut();
         translate([0, 0, -20]) cylinder(h=21, d=0.2+screwM3, $fn=16);
     }
-    translate([0, 0, -11.5]) nut("M3x0.5", turns=22, Douter=1);
+    translate([0, 0, -11.5]) nut("M3x0.5", turns=19, Douter=1);
 }
 module ProfileNutScrewM5()
 {
@@ -112,7 +112,7 @@ module ProfileNutScrewM5()
         translate([0,0,-9]) sliding_nut();
         translate([0, 0, -20]) cylinder(h=21, d=0.2+5, $fn=16);
     }
-    translate([0, 0, -11.5]) nut("M5x0.5", turns=22, Douter=1);
+    translate([0, 0, -11.5]) nut("M5x0.5", turns=19, Douter=1);
 }
 module DoubleProfileNut()
 {
@@ -216,4 +216,3 @@ module FuellKopfCube_40x40()
                 cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
     }
 }
-
