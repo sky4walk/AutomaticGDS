@@ -14,18 +14,19 @@ screwDrewS=10;
 
 module Nut_Profile()
 {
-    breiteOben  = 9;
-    hoeheSeite  = 3;
-    nutBreite   = 6 / 2;
-    nutTiefe    = 3;
-    hoheProfil  = 7;
+    breiteOben   = 15 / 2;
+    breiteUnten  =  7 / 2;
+    hoeheSeite   =  3;
+    nutBreite    =  7 / 2;
+    nutTiefe     =  3;
+    hoheProfil   =  7;
     polygon([ 
                 [0, -nutTiefe], 
                 [nutBreite, -nutTiefe], 
                 [nutBreite, 0], 
                 [breiteOben, 0], 
                 [breiteOben, hoeheSeite], 
-                [hoeheSeite, hoheProfil], 
+                [breiteUnten, hoheProfil], 
                 [0, hoheProfil] 
     ]);
 }
@@ -115,7 +116,7 @@ module ProfileNutScrewM3()
         translate([0,0,-9]) sliding_nut();
         translate([0, 0, -20]) cylinder(h=21, d=0.2+screwM3, $fn=16);
     }
-    translate([0, 0, -11.5]) nut("M3x0.5", turns=18, Douter=1);
+    translate([0, 0, -11]) nut("M3x0.5", turns=17, Douter=1);
 }
 module ProfileNutScrewM5()
 {
@@ -125,7 +126,7 @@ module ProfileNutScrewM5()
         translate([0,0,-9]) sliding_nut();
         translate([0, 0, -20]) cylinder(h=21, d=0.2+5, $fn=16);
     }
-    translate([0, 0, -11.5]) nut("M5x0.5", turns=18, Douter=1);
+    translate([0, 0, -11]) nut("M5x0.5", turns=17, Douter=1);
 }
 module DoubleProfileNut()
 {
@@ -215,19 +216,22 @@ module FuellKopfCube_40x40()
 
         translate([dicke-gap,dicke-gap,-gap]) cube([WuerfelX+2*gap,WuerfelY+2*gap,WuerfelZ+2*gap],false);
     
-        rotate([-90,0,0])
-            translate([HalterungX1+dicke,-HalterungY1+dim,-rundung])
-                cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
-        rotate([-90,0,0])
-            translate([HalterungX1+dicke,-HalterungY2+dim,-rundung])
-                cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
-        rotate([-90,0,0])
-            translate([HalterungX2+dicke,-HalterungY1+dim,-rundung])
-                cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
-        rotate([-90,0,0])
-            translate([HalterungX2+dicke,-HalterungY2+dim,-rundung])
-                cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
+        translate([0,0,-3])
+        {
+            rotate([-90,0,0])
+                translate([HalterungX1+dicke,-HalterungY1+dim,-rundung])
+                    cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
+            rotate([-90,0,0])
+                translate([HalterungX1+dicke,-HalterungY2+dim,-rundung])
+                    cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
+            rotate([-90,0,0])
+                translate([HalterungX2+dicke,-HalterungY1+dim,-rundung])
+                    cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
+            rotate([-90,0,0])
+                translate([HalterungX2+dicke,-HalterungY2+dim,-rundung])
+                    cylinder(d=HalterungD,h=WuerfelY+2*rundung+dicke*2);
+        }
     }
 }
-
 Nut_Profile();
+//ProfileNutScrewM5();
