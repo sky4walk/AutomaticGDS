@@ -237,25 +237,26 @@ module FuellKopfCube_40x40()
 }
 module Cube_40x40_VentilHolder()
 {
-    hightMount=30;
-    thickMount=ProfileSize/6;//3;
-    dMount=5;
-    xDistMount=22;
-    yDistMount=17;
+    yDistMount=24;
+    xDistMount=17;
+    dMount=6;
+    hightMount=yDistMount+2*dMount;
     xStartPos=(NutDistance*2-xDistMount)/2;
-    yStartPos=(hightMount-yDistMount)/2;
-    //Cube_40x40();
+    yStartPos=(hightMount-yDistMount)/2;   
+    thickMount=ProfileSize/3;
+    
+    Cube_40x40();
     difference()
     {
-        translate([0,-hightMount,0]) cube([NutDistance*2,hightMount,thickMount]);
-        translate([xStartPos,-yStartPos,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
+        translate([0,-hightMount,0]) cube([NutDistance*2,hightMount,thickMount]);        
+        //translate([xStartPos,-yStartPos,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);       
         translate([xStartPos+xDistMount,-yStartPos,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
         translate([xStartPos,-yStartPos-yDistMount,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
-        translate([xStartPos+xDistMount,-yStartPos-yDistMount,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
-        translate([xStartPos+xDistMount/2,-yStartPos,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
-        translate([xStartPos+xDistMount/2,-yStartPos-yDistMount,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
+        //translate([xStartPos+xDistMount,-yStartPos-yDistMount,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);        
+        translate([xStartPos,-yStartPos-yDistMount/2,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
+        translate([xStartPos+xDistMount,-yStartPos-yDistMount/2,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
     }
 }
 //Nut_Profile(0);
 //ProfileNutScrewM5();
-Cube_40x40_VentilHolder();
+//Cube_40x40_VentilHolder();
