@@ -161,14 +161,14 @@ module QuadProfileNutScrewM5()
     translate([0,+NutDistance,0])DoubleProfileNutScrewM5();
 }
 
-module PanelSide_40x40(d=thickness)
+module PanelSide_40x40(d=thickness,r=thickness)
 {
     
     difference()
     {
-        cube([NutDistance*2,ProfileSize+2*d+gap,d]);
-        translate([NutDistance/2, (ProfileSize+2*d+gap)/2, -gap]) cylinder(h=d+2*gap, d=0.2+screwM5, $fn=16);
-        translate([NutDistance/2+NutDistance, (ProfileSize+2*d+gap)/2, -gap]) cylinder(h=d+2*gap, d=0.2+screwM5, $fn=16);
+        cube([NutDistance*2,ProfileSize+2*r+gap,d]);
+        translate([NutDistance/2, (ProfileSize+2*r+gap)/2, -gap]) cylinder(h=d+2*gap, d=0.2+screwM5, $fn=16);
+        translate([NutDistance/2+NutDistance, (ProfileSize+2*r+gap)/2, -gap]) cylinder(h=d+2*gap, d=0.2+screwM5, $fn=16);
     }
 }
 module ConnectorOneSide_40x40()
@@ -239,24 +239,26 @@ module Cube_40x40_VentilHolder()
 {
     yDistMount=24;
     xDistMount=17;
+    xDistMount2=22;
     dMount=6;
     hightMount=yDistMount+2*dMount;
     xStartPos=(NutDistance*2-xDistMount)/2;
     yStartPos=(hightMount-yDistMount)/2;   
-    thickMount=ProfileSize/3;
+    thickMount=10;//ProfileSize/3;
     
-    Cube_40x40();
+    PanelSide_40x40(thickMount,0);
+    //Cube_40x40();
     difference()
     {
         translate([0,-hightMount,0]) cube([NutDistance*2,hightMount,thickMount]);        
         //translate([xStartPos,-yStartPos,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);       
         translate([xStartPos+xDistMount,-yStartPos,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
         translate([xStartPos,-yStartPos-yDistMount,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
-        //translate([xStartPos+xDistMount,-yStartPos-yDistMount,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);        
+        translate([xStartPos+xDistMount2,-yStartPos-yDistMount,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);        
         translate([xStartPos,-yStartPos-yDistMount/2,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
         translate([xStartPos+xDistMount,-yStartPos-yDistMount/2,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
     }
 }
 //Nut_Profile(0);
 //ProfileNutScrewM5();
-//Cube_40x40_VentilHolder();
+Cube_40x40_VentilHolder();
