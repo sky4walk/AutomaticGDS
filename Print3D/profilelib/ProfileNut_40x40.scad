@@ -167,8 +167,8 @@ module PanelSide_40x40(d=thickness,r=thickness)
     difference()
     {
         cube([NutDistance*2,ProfileSize+2*r+gap,d]);
-        translate([NutDistance/2, (ProfileSize+2*r+gap)/2, -gap]) cylinder(h=d+2*gap, d=0.2+screwM5, $fn=16);
-        translate([NutDistance/2+NutDistance, (ProfileSize+2*r+gap)/2, -gap]) cylinder(h=d+2*gap, d=0.2+screwM5, $fn=16);
+        translate([NutDistance/2, (ProfileSize+2*r+gap)/2, -gap]) cylinder(h=d+2*gap, d=0.2+screwM5+1, $fn=16);
+        translate([NutDistance/2+NutDistance, (ProfileSize+2*r+gap)/2, -gap]) cylinder(h=d+2*gap, d=0.2+screwM5+1, $fn=16);
     }
 }
 module ConnectorOneSide_40x40()
@@ -244,7 +244,7 @@ module Cube_40x40_VentilHolder()
     hightMount=yDistMount+2*dMount;
     xStartPos=(NutDistance*2-xDistMount)/2;
     yStartPos=(hightMount-yDistMount)/2;   
-    thickMount=10;//ProfileSize/3;
+    thickMount=8;//ProfileSize/3;
     
     PanelSide_40x40(thickMount,0);
     //Cube_40x40();
