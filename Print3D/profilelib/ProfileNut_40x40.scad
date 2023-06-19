@@ -116,8 +116,8 @@ module ProfileNutScrewM3()
         translate([0,0,-9]) sliding_nut();
         translate([0, 0, -20]) cylinder(h=21, d=0.2+screwM3, $fn=16);
     }
-//    translate([0, 0, -11]) nut("M3x0.5", turns=17, Douter=1);
-    translate([0, 0, -8.8]) nut("M5x0.5", turns=13, Douter=1);
+    translate([0, 0, -11]) nut("M3x0.5", turns=17, Douter=1);
+//    translate([0, 0, -8.8]) nut("M5x0.5", turns=13, Douter=1);
 }
 module ProfileNutScrewM5()
 {
@@ -129,6 +129,17 @@ module ProfileNutScrewM5()
     }
 //    translate([0, 0, -11]) nut("M3x0.5", turns=17, Douter=1);
     translate([0, 0, -8.8]) nut("M5x0.5", turns=13, Douter=1);
+}
+module ProfileNutScrewM6()
+{
+    hight = 4;
+    difference() 
+    {
+        translate([0,0,-9]) sliding_nut();
+        translate([0, 0, -20]) cylinder(h=21, d=0.2+6, $fn=16);
+    }
+//    translate([0, 0, -11]) nut("M3x0.5", turns=17, Douter=1);
+    translate([0, 0, -8.8]) nut("M6x0.5", turns=13, Douter=1);
 }
 module DoubleProfileNut()
 {
@@ -263,4 +274,5 @@ module Cube_40x40_VentilHolder()
 }
 //Nut_Profile(0);
 //ProfileNutScrewM5();
-Cube_40x40_VentilHolder();
+ProfileNutScrewM6();
+//Cube_40x40_VentilHolder();
