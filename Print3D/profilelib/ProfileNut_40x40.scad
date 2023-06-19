@@ -254,9 +254,11 @@ module Cube_40x40_VentilHolder()
         //translate([xStartPos,-yStartPos,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);       
         translate([xStartPos+xDistMount,-yStartPos,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
         translate([xStartPos,-yStartPos-yDistMount,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
-        translate([xStartPos+xDistMount2,-yStartPos-yDistMount,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);        
         translate([xStartPos,-yStartPos-yDistMount/2,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
         translate([xStartPos+xDistMount,-yStartPos-yDistMount/2,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);
+        // Halterung reduzierventil
+        //translate([xStartPos+xDistMount2,-yStartPos-yDistMount,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);        
+        translate([xStartPos,-yStartPos-yDistMount+xDistMount2,-gap]) cylinder(d=dMount,h=hightMount+2*gap,$fn=16);        
     }
 }
 //Nut_Profile(0);
