@@ -45,6 +45,7 @@ enum MENU
 {
   MENU_SELECT = 1,
   MENU_SETUP_SPUELEN,
+  MENU_MANUAL,
   MENU_SETUP_FUELLEN,
   MENU_SETUP_RUHE,
   MENU_SETUP_AUSLOESE
@@ -348,7 +349,7 @@ void menu()
   lcd.setCursor(0,0);
   if ( MENU_SELECT == actMenu )
   {
-    if ( true == SubStateChange(2) )
+    if ( true == SubStateChange(3) )
     {
       switch ( subMenuSelect )
       {
@@ -366,6 +367,13 @@ void menu()
           lcd.print(F("SETUP"));
           CONSOLELN(F("SETUP"));
           break;
+        case 2:
+          actMenu = MENU_MANUAL;
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print(F("MANUAL"));
+          CONSOLELN(F("MANUAL"));
+          break;
       }
     }
     else
@@ -380,8 +388,40 @@ void menu()
         case 1:
           lcd.print(F("Setup"));
           break;
+        case 2:
+          lcd.print(F("Manual"));
+          break;
       }
     }
+  }
+  else if ( MENU_MANUAL == actMenu )
+  {
+    lcd.setCursor(0, 0);
+    lcd.print(F("Manual"));
+    lcd.setCursor(0, 1);
+    if ( isButtonPressed ( BUTTON_UP ) )
+    {
+      GasEinlass( !statesVentile.GasEin );
+      if (statesVentile.GasEin) lcd.print(F("GE: ON"));
+      else                      lcd.print(F("GE:OFF"));
+    }
+    else if ( isButtonPressed ( BUTTON_DOWN ) )
+    {
+      GasAuslass(!statesVentile.GasAus);
+      if (statesVentile.GasAus) lcd.print(F("GA: ON"));
+      else                      lcd.print(F("GA:OFF"));
+    }
+    else if ( isButtonPressed ( BUTTON_RIGHT ) )
+    {
+      BierEinlass(!statesVentile.BierEin);
+      if (statesVentile.BierEin) lcd.print(F("BE: ON"));
+      else                       lcd.print(F("BE:OFF"));
+    }
+    else if ( isButtonPressed ( BUTTON_LEFT ) )
+    {
+      actMenu = MENU_SELECT;
+      lcd.clear();
+    }  
   }
   else if ( MENU_SETUP_SPUELEN == actMenu )
   {
