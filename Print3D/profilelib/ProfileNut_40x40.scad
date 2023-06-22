@@ -189,10 +189,10 @@ module ConnectorOneSide_40x40()
 }
 module Cube_40x40(d=thickness)
 {
-    PanelSide_40x40(d);
-    translate([0,0,ProfileSize+gap+d]) PanelSide_40x40(d);
-    translate([0,d,0]) rotate([90,0,0]) PanelSide_40x40(d);
-    translate([0,d*2+gap+ProfileSize,0]) rotate([90,0,0]) PanelSide_40x40(d);
+    PanelSide_40x40(d,d);
+    translate([0,0,ProfileSize+gap+d]) PanelSide_40x40(d,d);
+    translate([0,d,0]) rotate([90,0,0]) PanelSide_40x40(d,d);
+    translate([0,d*2+gap+ProfileSize,0]) rotate([90,0,0]) PanelSide_40x40(d,d);
 }
 module CubeDouble_40x40()
 {
@@ -202,7 +202,7 @@ module CubeDouble_40x40()
 
 module FuellKopfCube_40x40()
 {
-    distanceFuellKopf=70;
+    distanceFuellKopf=70-18;
     dicke = 5;
     rundung = gap;
     dim=20;
@@ -222,7 +222,8 @@ module FuellKopfCube_40x40()
         Cube_40x40(dicke);
         translate([0,-distanceFuellKopf,0]) cube([40,distanceFuellKopf,dicke]);
         translate([0,-distanceFuellKopf,ProfileSize+gap+dicke]) cube([40,distanceFuellKopf,dicke]);
-    }    
+    }
+    
     difference()
     {
         cube([WuerfelX+dicke*2,WuerfelY+dicke*2,WuerfelZ],false);
@@ -274,5 +275,6 @@ module Cube_40x40_VentilHolder()
 }
 //Nut_Profile(0);
 //ProfileNutScrewM5();
-ProfileNutScrewM6();
+//ProfileNutScrewM6();
 //Cube_40x40_VentilHolder();
+FuellKopfCube_40x40();
