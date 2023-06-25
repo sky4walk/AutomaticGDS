@@ -210,24 +210,23 @@ module FuellKopfCube_40x40()
     WuerfelY     = 45;
     WuerfelZ     = 60-dim;
     HalterungD   = 6;
-    moveX        = 2;
+    moveX        = 0;
     HalterungX1  = 12.5+moveX;
     HalterungX2  = HalterungX1+25.0;
     HalterungY1  = 27.5;
     HalterungY2  = HalterungY1+20.0;
 
-
+    // distance Fuellkopf
     translate([-distanceFuellKopf,dicke/2,ProfileSize]) rotate([0,90,90])
     {
         Cube_40x40(dicke);
         translate([0,-distanceFuellKopf,0]) cube([40,distanceFuellKopf,dicke]);
         translate([0,-distanceFuellKopf,ProfileSize+gap+dicke]) cube([40,distanceFuellKopf,dicke]);
     }
-    
+    //fuellkopf mount
     difference()
     {
         cube([WuerfelX+dicke*2,WuerfelY+dicke*2,WuerfelZ],false);
-
         translate([dicke-gap,dicke-gap,-gap]) cube([WuerfelX+2*gap,WuerfelY+2*gap,WuerfelZ+2*gap],false);
     
         translate([0,0,-3])
