@@ -2,13 +2,13 @@
 
 gap          = .1;
 
-BasisPlatteX = 150;
+BasisPlatteX = 145;
 BasisPlatteY = 90;
 BasisPlatteZ = 5;
 SchraubeM4   = 4+gap;
 SchraubeM5   = 5+gap;
 
-ArduinoPosX = 10;
+ArduinoPosX = 8;
 ArduinoPosY = 5;
 ArduinoX1   = 0;
 ArduinoY1   = 0;
@@ -27,7 +27,7 @@ RelaisY    = 45;
 NutDistance = 20;
 NutPosX1    = 20;
 NutPosX2    = 65;
-NutPosY     = 20;
+NutPosY     = 15;
 
 difference()
 {

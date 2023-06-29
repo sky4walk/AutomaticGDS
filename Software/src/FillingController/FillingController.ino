@@ -15,9 +15,9 @@
 #define PINLCD              10
 #define PINKEY              0
 #define PINWATER            1
-#define PINGE               11  //D13
-#define PINGA               12  //D12
-#define PINBE               13  //D11
+#define PINGE               13  //1 GE
+#define PINGA               12  //2 GA
+#define PINBE               11  //3 BE
 #define DEFGASSPUELEN       2
 #define DEFGASFUELLEN       2
 #define DEFBIERRUHE         2
