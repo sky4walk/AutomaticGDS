@@ -330,10 +330,16 @@ void setup() {
   pinMode(PINGE,          OUTPUT);
   pinMode(PINGA,          OUTPUT);
   pinMode(PINBE,          OUTPUT);
-  pinMode(PINWATER,       INPUT);
+  pinMode(PINWATER,       INPUT_PULLUP);
   lcdSync();
   LoadValues();
   digitalWrite(PINLCD, HIGH);
+  digitalWrite(PINGE, LOW);
+  digitalWrite(PINGA, LOW);
+  digitalWrite(PINBE, LOW);
+  statesVentile.BierEin = false;
+  statesVentile.GasAus = false;
+  statesVentile.GasEin = false;
   restart();
   printLogo();
   timerGasSpuelen.setTime(fillTimes.gasSpuelen*MIL2SEC);
@@ -396,8 +402,12 @@ void menu()
   }
   else if ( MENU_MANUAL == actMenu )
   {
+    int rd = analogRead(PINWATER);
     lcd.setCursor(0, 0);
-    lcd.print(F("Manual"));
+    lcd.print(F("Manual:"));
+    CONSOLE(F("M:"));
+    CONSOLELN(rd);
+    lcd.print(rd);
     lcd.setCursor(0, 1);
     if ( isButtonPressed ( BUTTON_UP ) )
     {

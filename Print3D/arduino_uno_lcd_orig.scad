@@ -17,7 +17,7 @@
 //
 // extra PCB in example is 20x33.7
 
-part = "bottom"; // [ top, bottom, button, buttons, all ]
+part = "top"; // [ top, bottom, button, buttons, all ]
 with_battery = 0; // [ 1:true, 0:false ] 
 extra_room = 0; //20.6; // size of extra room, if any, set to 0 otherwise
 
@@ -27,11 +27,11 @@ have_power_switch = 0; // [ 1:true, 0:false ]
 have_up_key = 1; // [ 1:true, 0:false ] 
 have_down_key = 1; // [ 1:true, 0:false ] 
 have_left_key = 1; // [ 1:true, 0:false ] 
-have_right_key = 0; // [ 1:true, 0:false ] 
+have_right_key = 1; // [ 1:true, 0:false ] 
 have_select_key = 0; // [ 1:true, 0:false ] 
-have_reset_key = 0; // [ 1:true, 0:false ] 
-have_plugrow_upper = 0; // [ 1:true, 0:false ]
-have_plugrow_lower = 0; // [ 1:true, 0:false ]
+have_reset_key = 1; // [ 1:true, 0:false ] 
+have_plugrow_upper = 1; // [ 1:true, 0:false ]
+have_plugrow_lower = 1; // [ 1:true, 0:false ]
 mvBtnX = -3;
 mvBtnY = 1;
 addHight = 13;
