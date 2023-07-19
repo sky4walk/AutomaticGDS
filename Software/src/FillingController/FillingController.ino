@@ -18,14 +18,14 @@
 #define PINGE               13  //1 GE
 #define PINGA               12  //2 GA
 #define PINBE               11  //3 BE
-#define DEFGASSPUELEN       2
-#define DEFGASFUELLEN       2
-#define DEFBIERRUHE         2
-#define DEFTOWATER          500
+#define DEFGASSPUELEN       5
+#define DEFGASFUELLEN       5
+#define DEFBIERRUHE         10
+#define DEFTOWATER          50
 #define VENTILZU            false
 #define VENTILAUF           true
 #define TIMEADDDELTA        1
-#define TOWATERADDDELTA     50
+#define TOWATERADDDELTA     10
 #define PRINTCONTACTVAL     500
 
 ///////////////////////////////////////////////
@@ -402,12 +402,21 @@ void menu()
   }
   else if ( MENU_MANUAL == actMenu )
   {
+    char buffer [18];
     int rd = analogRead(PINWATER);
+    sprintf (buffer, "%4u", rd);
+
     lcd.setCursor(0, 0);
     lcd.print(F("Manual:"));
-    CONSOLE(F("M:"));
-    CONSOLELN(rd);
-    lcd.print(rd);
+    
+    timerPrintContactVal.start();
+    if ( timerPrintContactVal.timeOver() )
+    {
+      lcd.print(buffer);
+      CONSOLE(F("M:"));
+      CONSOLELN(buffer);
+      timerPrintContactVal.restart();
+    }        
     lcd.setCursor(0, 1);
     if ( isButtonPressed ( BUTTON_UP ) )
     {
