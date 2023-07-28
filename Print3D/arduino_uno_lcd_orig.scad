@@ -17,7 +17,7 @@
 //
 // extra PCB in example is 20x33.7
 
-part = "top"; // [ top, bottom, button, buttons, all ]
+part = "buttons"; // [ top, bottom, button, buttons, all ]
 with_battery = 0; // [ 1:true, 0:false ] 
 extra_room = 0; //20.6; // size of extra room, if any, set to 0 otherwise
 
@@ -72,6 +72,9 @@ button_dy1 = 4.7;
 button_dy2 = -2.0;
 button_dx1 = 15.2 - 6.0 - mvBtnX;
 button_dx2 = 23.2 - 6.0 - mvBtnX;
+button_dx3 = 15.2 - 6.0 + mvBtnX;
+button_dx4 = 23.2 - 6.0 + mvBtnX;
+
 trimpot = [9.5, 4.4]; // trimpot size, no margin
 trimpotdx = -(pcb[0]/2  - 3.9 - 9.5/2);
 trimpotdy = pcb[1]/2 - 0.9 - 4.4/2; 
@@ -332,8 +335,8 @@ module top() {
               // buttons
 			  button_frame(mvBtnX, button_dy1);
               button_frame(mvBtnX, button_dy2);
-              button_frame(button_dx2, 0); // reset
-              button_frame(button_dx1, 0);
+              button_frame(button_dx4, 0); // reset
+              button_frame(button_dx3, 0);
               button_frame(-button_dx2, 0);
               button_frame(-button_dx1, 0);
                 
@@ -363,11 +366,12 @@ module top() {
        button_hole(mvBtnX, button_dy1, have_up_key); // up
        button_hole(mvBtnX, button_dy2, have_down_key); // down
         
-       button_hole(button_dx2, 0, have_reset_key); // reset
-       button_hole(button_dx1, 0, have_right_key); // right
-       button_hole(-button_dx2, 0, have_select_key); // select
+       button_hole(button_dx4, 0, have_reset_key); // reset
+       button_hole(button_dx3, 0, have_right_key); // right
        
-        button_hole(-button_dx1, 0, have_left_key); // left
+       button_hole(-button_dx2, 0, have_select_key); // select       
+       button_hole(-button_dx1, 0, have_left_key); // left
+        
 		// plug rows
 		if (have_plugrow_upper) 
 			plugrow_hole(plugrow1, 0, 7);
