@@ -32,7 +32,7 @@ have_select_key = 0; // [ 1:true, 0:false ]
 have_reset_key = 1; // [ 1:true, 0:false ] 
 have_plugrow_upper = 1; // [ 1:true, 0:false ]
 have_plugrow_lower = 1; // [ 1:true, 0:false ]
-mvBtnX = -3;
+mvBtnX = -1;
 mvBtnY = 1;
 addHight = 13;
 
@@ -453,21 +453,21 @@ if (part == "buttons") { // with bar that connects
 		buttonbar(0, 0, 0, bardist);
 		 button();
 	}
-    if (have_up_key) translate([0, button_dy1, 0])  {
+    if (have_up_key) translate([mvBtnX, button_dy1, 0])  {
 		buttonbar(-button_dx1/2, 0, -button_dx1/2, bardist-button_dy1);
 		buttonbar(-button_dx1/2, 0, 0, 0);
 		button();
 	}
-    if (have_down_key) translate([0, button_dy2, 0]) {
+    if (have_down_key) translate([mvBtnX, button_dy2, 0]) {
 		buttonbar(button_dx1/2, 0, button_dx1/2, bardist-button_dy2);
 		buttonbar(0, 0, button_dx1/2, 0);
 		button();
 	}
-    if (have_right_key) translate([button_dx1, 0, 0])  {
+    if (have_right_key) translate([button_dx3, 0, 0])  {
 		buttonbar(0, 0, 0, bardist);
 		button();
 	}
-    if (have_reset_key) translate([button_dx2, 0, 0])  {
+    if (have_reset_key) translate([button_dx4, 0, 0])  {
 		buttonbar(0, 0, 0, bardist);
 		button();
 	}
