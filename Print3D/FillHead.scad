@@ -26,9 +26,9 @@ ZylinderO2H  = 43-ZylinderUH;
 ZylinderO2D  = 2;
 ZylinderS1D  = 10;
 ZylinderS2D  = 3; // M3
-Nut14H       = 10;
+Nut14H       = 8;
 Nut14D       = 16;//15;
-Nut14Windung = 7;
+Nut14Windung = 5.48;
 Uebergang    = 3;
 OPos1 = (ZylinderUD-ZylinderO1D)/2;
 OPos2 = (ZylinderUD-ZylinderO2D)/2;
@@ -95,7 +95,7 @@ module Gewinde()
     translate([WuerfelX/2+OPos1,WuerfelY/2,WuerfelZ-Nut14H])
         nut("G1/4", turns=Nut14Windung,Douter=Nut14D);
     rotate([90,90,0])
-        translate([-2*ZylinderUH/3,WuerfelX/2,-Nut14H-rundung])
+        translate([-2*ZylinderUH/3,WuerfelX/2,-Nut14H])
             nut("G1/4", turns=Nut14Windung,Douter=Nut14D);
     rotate([0,90,0])
         translate([-WuerfelZ+TestStiftZ,WuerfelY/2,TestStiftX+3*rundung])
