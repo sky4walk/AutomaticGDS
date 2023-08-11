@@ -3,6 +3,7 @@
 
 use <../threadlib/threadlib.scad>;
 
+openMount = 1; // [0:false,1:true]
 NutDistance=20;
 thickness=2.5;
 gap=.8;
@@ -210,24 +211,31 @@ module FuellKopfCube_40x40()
     WuerfelY     = 45;
     WuerfelZ     = 60-dim;
     HalterungD   = 6;
-    moveX        = 0;
+    moveX        = 2;
     HalterungX1  = 12.5+moveX;
     HalterungX2  = HalterungX1+25.0;
     HalterungY1  = 27.5;
     HalterungY2  = HalterungY1+20.0;
+    Befestigung  = 2;
 
+    
     // distance Fuellkopf
-    translate([-distanceFuellKopf,dicke/2,ProfileSize]) rotate([0,90,90])
+    translate([-distanceFuellKopf,0,ProfileSize]) 
+        rotate([0,90,90])
     {
-        Cube_40x40(dicke);
+        Cube_40x40(dicke*1.42);
         translate([0,-distanceFuellKopf,0]) cube([40,distanceFuellKopf,dicke]);
-        translate([0,-distanceFuellKopf,ProfileSize+gap+dicke]) cube([40,distanceFuellKopf,dicke]);
+        translate([0,-distanceFuellKopf,ProfileSize+gap+dicke*1.85]) cube([40,distanceFuellKopf,dicke]);
     }
+
+    // verstaerkung der halterung
+    translate([-(dicke*(Befestigung-1)),0,0]) cube([dicke*Befestigung,WuerfelY+dicke*2,WuerfelZ],false);
+    
     //fuellkopf mount
     difference()
     {
         cube([WuerfelX+dicke*2,WuerfelY+dicke*2,WuerfelZ],false);
-        translate([dicke-gap,dicke-gap,-gap]) cube([WuerfelX+2*gap,WuerfelY+2*gap,WuerfelZ+2*gap],false);
+        translate([dicke-gap,dicke-gap,-gap]) cube([WuerfelX+2*gap+openMount*dicke,WuerfelY+2*gap,WuerfelZ+2*gap],false);
     
         translate([0,0,-3])
         {
@@ -276,6 +284,6 @@ module Cube_40x40_VentilHolder()
 //ProfileNutScrewM5();
 //ProfileNutScrewM6();
 //Cube_40x40_VentilHolder();
-//FuellKopfCube_40x40();
+FuellKopfCube_40x40();
 //QuadProfileNutScrewM5();
-sliding_nut();
+//sliding_nut();
