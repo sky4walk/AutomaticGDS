@@ -203,9 +203,9 @@ module CubeDouble_40x40()
 
 module FuellKopfCube_40x40()
 {
-    distanceFuellKopf=70-18;
+    distanceFuellKopf=70-18-20;
     dicke = 5;
-    rundung = gap;
+    rundung = 0.1;
     dim=20;
     WuerfelX     = 50;
     WuerfelY     = 45;
@@ -225,7 +225,7 @@ module FuellKopfCube_40x40()
     {
         Cube_40x40(dicke*1.42);
         translate([0,-distanceFuellKopf,0]) cube([40,distanceFuellKopf,dicke]);
-        translate([0,-distanceFuellKopf,ProfileSize+gap+dicke*1.85]) cube([40,distanceFuellKopf,dicke]);
+        translate([0,-distanceFuellKopf,ProfileSize+rundung+dicke*2]) cube([40,distanceFuellKopf,dicke]);
     }
 
     // verstaerkung der halterung
@@ -235,7 +235,7 @@ module FuellKopfCube_40x40()
     difference()
     {
         cube([WuerfelX+dicke*2,WuerfelY+dicke*2,WuerfelZ],false);
-        translate([dicke-gap,dicke-gap,-gap]) cube([WuerfelX+2*gap+openMount*dicke,WuerfelY+2*gap,WuerfelZ+2*gap],false);
+        translate([dicke-rundung,dicke-rundung,-rundung]) cube([WuerfelX+2*rundung+openMount*dicke,WuerfelY+2*rundung,WuerfelZ+2*rundung],false);
     
         translate([0,0,-3])
         {
