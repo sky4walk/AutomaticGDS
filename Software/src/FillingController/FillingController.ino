@@ -11,7 +11,7 @@
 // defines
 ///////////////////////////////////////////////
 //#define NO_CONSOLE
-#define USEDEFAULTS
+//#define USEDEFAULTS
 #define MAXBUTTONS          6
 #define PINLCD              10
 #define PINKEY              0
