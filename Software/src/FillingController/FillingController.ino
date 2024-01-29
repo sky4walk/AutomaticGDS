@@ -11,6 +11,7 @@
 // defines
 ///////////////////////////////////////////////
 //#define NO_CONSOLE
+#define USEDEFAULTS
 #define MAXBUTTONS          6
 #define PINLCD              10
 #define PINKEY              0
@@ -97,10 +98,11 @@ void LoadValues()
   CONSOLELN("LoadValues");
   fillTimes.UseDefault = false;
   store.load(0, sizeof(Times), (char*)&fillTimes);
-#ifdef USEDEFAULTS  
+#ifndef USEDEFAULTS  
   if (  false == fillTimes.UseDefault )
 #endif
   {
+     CONSOLE(F("set default values"));
     // only go here after first installation
     memset((char*)&fillTimes, 0, sizeof(Times));
     fillTimes.gasSpuelen   = DEFGASSPUELEN;
@@ -239,7 +241,7 @@ bool isSensorKontakt()
   bool val = false;
   bool val_old = false;
 
-  timerBierRuhe.start();
+  timerPrintContactVal.start();
   if ( false == sensorContact )
   {
     val = isButtonPressed(BUTTON_RIGHT);
@@ -249,11 +251,11 @@ bool isSensorKontakt()
       {
         val_old = val;
         int rd = analogRead(PINWATER);
-        if ( timerBierRuhe.timeOver())
+        if ( timerPrintContactVal.timeOver())
         {
           CONSOLE(F("tv:"));
           CONSOLELN(rd);
-          timerBierRuhe.restart();
+          timerPrintContactVal.restart();
         }
         if ( fillTimes.toWater > rd )
           val = true;
@@ -523,6 +525,7 @@ void menu()
       actMenu = MENU_SELECT;
       lcd.clear();
       store.save(0, sizeof(Times), (char*)&fillTimes);
+      CONSOLELN( "Saved" );
       CONSOLELN( fillTimes.toWater );
     }
   }
@@ -602,7 +605,7 @@ void loop() {
       {
         GasAuslass(VENTILAUF);
         actState = STATE_ENDE;
-        CONSOLELN(F("FLASCHEVOLL"));
+        CONSOLELN(F("FLASCHEVOLL ENDE"));
         lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print(F("Flasche Voll"));            
