@@ -6,20 +6,21 @@ hoehe    = 20;
 dicke    = 3;
 abstandD = 5;
 loecherD = 4;
-korbH    = 50;
+korbH    = 140;
 radSteps = 5;
 
-PRESSDECKEL = false;
-FUESSE      = true;
-RAND        = false;
+PRESSDECKEL = true;
+FUESSE      = false;
+RAND        = true;
 
 stepsX = ( breite - loecherD ) / (loecherD * 2);
 stepsY = ( laenge - loecherD ) / (loecherD * 2);
 stepsZ = korbH / (loecherD * 2);
 
+
 difference() {
     cube([laenge,breite,dicke]);
-    
+       
     for ( j = [0:1:stepsY-1] ) {
         for ( i = [0:1:stepsX-1] ) {
             translate([loecherD*2*(1+i),loecherD*2*(1+j),-.1])
